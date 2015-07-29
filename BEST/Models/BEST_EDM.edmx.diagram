@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1966f94e1625480db56bba593bcbabf2" Name="Diagram1">
+        <EntityTypeShape EntityType="BESTDBModel.G_C_Empresa" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BESTDBModel.G_C_Usuario" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BESTDBModel.G_D_Usuario_Acceso" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BESTDBModel.G_D_Usuario_Password" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="BESTDBModel.FK_G_C_Usuario_G_C_Empresa" ManuallyRouted="false" />
+        <AssociationConnector Association="BESTDBModel.FK_G_D_Usuario_Acceso_G_C_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="BESTDBModel.FK_G_D_Usuario_Password_G_C_Usuario" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

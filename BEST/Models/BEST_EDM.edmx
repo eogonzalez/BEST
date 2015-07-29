@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BESTDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="G_C_Empresa">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+          </Key>
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="razon_social" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="nombre_comercial" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="direccion" Type="varchar" MaxLength="100" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="telefono" Type="varchar" MaxLength="50" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_C_Usuario">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_D_Usuario_Acceso">
+          <Key>
+            <PropertyRef Name="id_usuario_acceso" />
+          </Key>
+          <Property Name="id_usuario_acceso" Type="bigint" Nullable="false" />
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="ip" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_D_Usuario_Password">
+          <Key>
+            <PropertyRef Name="id_usuario_password" />
+          </Key>
+          <Property Name="id_usuario_password" Type="bigint" Nullable="false" />
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="password" Type="varchar(max)" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_G_C_Usuario_G_C_Empresa">
+          <End Role="G_C_Empresa" Type="Self.G_C_Empresa" Multiplicity="1" />
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Empresa">
+              <PropertyRef Name="id_empresa" />
+            </Principal>
+            <Dependent Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Usuario_Acceso_G_C_Usuario">
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="1" />
+          <End Role="G_D_Usuario_Acceso" Type="Self.G_D_Usuario_Acceso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Acceso">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Usuario_Password_G_C_Usuario">
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="1" />
+          <End Role="G_D_Usuario_Password" Type="Self.G_D_Usuario_Password" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Password">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BESTDBModelStoreContainer">
+          <EntitySet Name="G_C_Empresa" EntityType="Self.G_C_Empresa" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_C_Usuario" EntityType="Self.G_C_Usuario" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_D_Usuario_Acceso" EntityType="Self.G_D_Usuario_Acceso" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_D_Usuario_Password" EntityType="Self.G_D_Usuario_Password" Schema="BEST" store:Type="Tables" />
+          <AssociationSet Name="FK_G_C_Usuario_G_C_Empresa" Association="Self.FK_G_C_Usuario_G_C_Empresa">
+            <End Role="G_C_Empresa" EntitySet="G_C_Empresa" />
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Acceso_G_C_Usuario" Association="Self.FK_G_D_Usuario_Acceso_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Usuario_Acceso" EntitySet="G_D_Usuario_Acceso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Password_G_C_Usuario" Association="Self.FK_G_D_Usuario_Password_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Usuario_Password" EntitySet="G_D_Usuario_Password" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BESTDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="G_C_Empresa">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+          </Key>
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="razon_social" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre_comercial" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="G_C_Usuario" Relationship="Self.FK_G_C_Usuario_G_C_Empresa" FromRole="G_C_Empresa" ToRole="G_C_Usuario" />
+        </EntityType>
+        <EntityType Name="G_C_Usuario">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="G_C_Empresa" Relationship="Self.FK_G_C_Usuario_G_C_Empresa" FromRole="G_C_Usuario" ToRole="G_C_Empresa" />
+          <NavigationProperty Name="G_D_Usuario_Acceso" Relationship="Self.FK_G_D_Usuario_Acceso_G_C_Usuario" FromRole="G_C_Usuario" ToRole="G_D_Usuario_Acceso" />
+          <NavigationProperty Name="G_D_Usuario_Password" Relationship="Self.FK_G_D_Usuario_Password_G_C_Usuario" FromRole="G_C_Usuario" ToRole="G_D_Usuario_Password" />
+        </EntityType>
+        <EntityType Name="G_D_Usuario_Acceso">
+          <Key>
+            <PropertyRef Name="id_usuario_acceso" />
+          </Key>
+          <Property Name="id_usuario_acceso" Type="Int64" Nullable="false" />
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ip" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="G_C_Usuario" Relationship="Self.FK_G_D_Usuario_Acceso_G_C_Usuario" FromRole="G_D_Usuario_Acceso" ToRole="G_C_Usuario" />
+        </EntityType>
+        <EntityType Name="G_D_Usuario_Password">
+          <Key>
+            <PropertyRef Name="id_usuario_password" />
+          </Key>
+          <Property Name="id_usuario_password" Type="Int64" Nullable="false" />
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="G_C_Usuario" Relationship="Self.FK_G_D_Usuario_Password_G_C_Usuario" FromRole="G_D_Usuario_Password" ToRole="G_C_Usuario" />
+        </EntityType>
+        <Association Name="FK_G_C_Usuario_G_C_Empresa">
+          <End Role="G_C_Empresa" Type="Self.G_C_Empresa" Multiplicity="1" />
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Empresa">
+              <PropertyRef Name="id_empresa" />
+            </Principal>
+            <Dependent Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Usuario_Acceso_G_C_Usuario">
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="1" />
+          <End Role="G_D_Usuario_Acceso" Type="Self.G_D_Usuario_Acceso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Acceso">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Usuario_Password_G_C_Usuario">
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="1" />
+          <End Role="G_D_Usuario_Password" Type="Self.G_D_Usuario_Password" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Password">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BESTDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="G_C_Empresa" EntityType="Self.G_C_Empresa" />
+          <EntitySet Name="G_C_Usuario" EntityType="Self.G_C_Usuario" />
+          <EntitySet Name="G_D_Usuario_Acceso" EntityType="Self.G_D_Usuario_Acceso" />
+          <EntitySet Name="G_D_Usuario_Password" EntityType="Self.G_D_Usuario_Password" />
+          <AssociationSet Name="FK_G_C_Usuario_G_C_Empresa" Association="Self.FK_G_C_Usuario_G_C_Empresa">
+            <End Role="G_C_Empresa" EntitySet="G_C_Empresa" />
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Acceso_G_C_Usuario" Association="Self.FK_G_D_Usuario_Acceso_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Usuario_Acceso" EntitySet="G_D_Usuario_Acceso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Password_G_C_Usuario" Association="Self.FK_G_D_Usuario_Password_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Usuario_Password" EntitySet="G_D_Usuario_Password" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BESTDBModelStoreContainer" CdmEntityContainer="BESTDBEntities">
+          <EntitySetMapping Name="G_C_Empresa">
+            <EntityTypeMapping TypeName="BESTDBModel.G_C_Empresa">
+              <MappingFragment StoreEntitySet="G_C_Empresa">
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+                <ScalarProperty Name="razon_social" ColumnName="razon_social" />
+                <ScalarProperty Name="nombre_comercial" ColumnName="nombre_comercial" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_C_Usuario">
+            <EntityTypeMapping TypeName="BESTDBModel.G_C_Usuario">
+              <MappingFragment StoreEntitySet="G_C_Usuario">
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_D_Usuario_Acceso">
+            <EntityTypeMapping TypeName="BESTDBModel.G_D_Usuario_Acceso">
+              <MappingFragment StoreEntitySet="G_D_Usuario_Acceso">
+                <ScalarProperty Name="id_usuario_acceso" ColumnName="id_usuario_acceso" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_D_Usuario_Password">
+            <EntityTypeMapping TypeName="BESTDBModel.G_D_Usuario_Password">
+              <MappingFragment StoreEntitySet="G_D_Usuario_Password">
+                <ScalarProperty Name="id_usuario_password" ColumnName="id_usuario_password" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
