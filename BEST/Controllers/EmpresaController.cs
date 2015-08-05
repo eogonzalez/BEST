@@ -17,7 +17,15 @@ namespace BEST.Controllers
         // GET: /Empresa/
         public ActionResult Index()
         {
-            return View(db.G_C_Empresa.ToList());
+            //Realizo consulta 
+            var query = from empresas in db.G_C_Empresa
+                    where empresas.estado.Equals("A")
+                    select empresas;
+
+            //var ql = q.ToList();
+            //return View(db.G_C_Empresa.ToList());
+
+            return View(query.ToList());
         }
 
         // GET: /Empresa/Details/5
@@ -46,10 +54,17 @@ namespace BEST.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="id_empresa,razon_social,nombre_comercial,direccion,email,telefono,fecha_registro,estado")] G_C_Empresa g_c_empresa)
+        public ActionResult Create(G_C_Empresa g_c_empresa)
         {
             if (ModelState.IsValid)
             {
+                /*Asigno valores por defecto*/
+                /*Para id_empresa asigno el valor de la funcion ObtenerCorrelativo */
+                g_c_empresa.id_empresa = g_c_empresa.ObtenerCorrelativo();
+                /*Para fecha y estado esta pendiente que no se envie ya que tiene valores por defecto en la Base de datos */
+                g_c_empresa.fecha_registro = DateTime.Now;
+                g_c_empresa.estado = "A";
+
                 db.G_C_Empresa.Add(g_c_empresa);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,6 +97,10 @@ namespace BEST.Controllers
         {
             if (ModelState.IsValid)
             {
+                /*Envio valores por defecto de fecha y estado*/
+                g_c_empresa.fecha_registro = DateTime.Now;
+                g_c_empresa.estado = "A";
+
                 db.Entry(g_c_empresa).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -110,7 +129,16 @@ namespace BEST.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             G_C_Empresa g_c_empresa = db.G_C_Empresa.Find(id);
-            db.G_C_Empresa.Remove(g_c_empresa);
+            
+            /*Comento el metodo que elimina el registro*/
+            //db.G_C_Empresa.Remove(g_c_empresa);
+            
+            /*Envio valores por defecto de fecha registro*/
+            g_c_empresa.fecha_registro = DateTime.Now;
+            
+            /*Cambio estado para empresa*/
+            g_c_empresa.estado = "B";
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
