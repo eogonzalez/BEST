@@ -12,6 +12,7 @@ namespace BEST.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class G_C_Empresa
     {
@@ -22,7 +23,9 @@ namespace BEST.Models
             this.G_D_Empresa_Roles = new HashSet<G_D_Empresa_Roles>();            
         }
 
+        
         [DisplayName("Código de Empresa")]
+        [Key]
         public int id_empresa { get; set; }
 
         [DisplayName("Razón Social")]
@@ -49,5 +52,6 @@ namespace BEST.Models
         public virtual ICollection<G_C_Usuario> G_C_Usuario { get; set; }
         public virtual ICollection<G_D_Empresa_Modulo> G_D_Empresa_Modulo { get; set; }
         public virtual ICollection<G_D_Empresa_Roles> G_D_Empresa_Roles { get; set; }
+
     }
 }

@@ -11,6 +11,7 @@ namespace BEST.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class G_C_Usuario
     {
@@ -21,8 +22,11 @@ namespace BEST.Models
             this.G_D_Suscripcion = new HashSet<G_D_Suscripcion>();
             this.G_D_Usuario_Roles = new HashSet<G_D_Usuario_Roles>();
         }
-    
+        
+        [Key]
         public int id_empresa { get; set; }
+
+        [Key]
         public int id_usuario { get; set; }
         public string nombre { get; set; }
         public string correo { get; set; }
