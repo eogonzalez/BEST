@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BESTDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BESTDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="G_C_Empresa">
           <Key>
             <PropertyRef Name="id_empresa" />
@@ -18,6 +18,36 @@
           <Property Name="fecha_registro" Type="datetime" Nullable="false" />
           <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
+        <EntityType Name="G_C_Modulos">
+          <Key>
+            <PropertyRef Name="id_modulo" />
+          </Key>
+          <Property Name="id_modulo" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="path" Type="varchar(max)" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_C_Roles">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="rol_del_sistema" Type="bit" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_C_Tipo_Suscripcion">
+          <Key>
+            <PropertyRef Name="id_tipo_suscripcion" />
+          </Key>
+          <Property Name="id_tipo_suscripcion" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="300" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
         <EntityType Name="G_C_Usuario">
           <Key>
             <PropertyRef Name="id_empresa" />
@@ -29,6 +59,39 @@
           <Property Name="correo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fecha_registro" Type="datetime" Nullable="false" />
           <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_D_Empresa_Modulo">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_modulo" />
+          </Key>
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="id_modulo" Type="int" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_D_Empresa_Roles">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="id_rol" Type="int" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="G_D_Suscripcion">
+          <Key>
+            <PropertyRef Name="id_suscripcion" />
+          </Key>
+          <Property Name="id_suscripcion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="id_tipo_suscripcion" Type="int" Nullable="false" />
+          <Property Name="fecha_inicio" Type="date" Nullable="false" />
+          <Property Name="fecha_fin" Type="date" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="G_D_Usuario_Acceso">
           <Key>
@@ -51,6 +114,18 @@
           <Property Name="fecha_registro" Type="datetime" Nullable="false" />
           <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
+        <EntityType Name="G_D_Usuario_Roles">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_usuario" />
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_empresa" Type="int" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="id_rol" Type="int" Nullable="false" />
+          <Property Name="fecha_registro" Type="datetime" Nullable="false" />
+          <Property Name="estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
         <Association Name="FK_G_C_Usuario_G_C_Empresa">
           <End Role="G_C_Empresa" Type="Self.G_C_Empresa" Multiplicity="1" />
           <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="*" />
@@ -60,6 +135,80 @@
             </Principal>
             <Dependent Role="G_C_Usuario">
               <PropertyRef Name="id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Empresa_Modulo_G_C_Empresa">
+          <End Role="G_C_Empresa" Type="Self.G_C_Empresa" Multiplicity="1" />
+          <End Role="G_D_Empresa_Modulo" Type="Self.G_D_Empresa_Modulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Empresa">
+              <PropertyRef Name="id_empresa" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Modulo">
+              <PropertyRef Name="id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Empresa_Modulo_G_C_Modulos">
+          <End Role="G_C_Modulos" Type="Self.G_C_Modulos" Multiplicity="1" />
+          <End Role="G_D_Empresa_Modulo" Type="Self.G_D_Empresa_Modulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Modulos">
+              <PropertyRef Name="id_modulo" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Modulo">
+              <PropertyRef Name="id_modulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Empresa_Roles_G_C_Empresa">
+          <End Role="G_C_Empresa" Type="Self.G_C_Empresa" Multiplicity="1" />
+          <End Role="G_D_Empresa_Roles" Type="Self.G_D_Empresa_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Empresa">
+              <PropertyRef Name="id_empresa" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Roles">
+              <PropertyRef Name="id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Empresa_Roles_G_C_Roles">
+          <End Role="G_C_Roles" Type="Self.G_C_Roles" Multiplicity="1" />
+          <End Role="G_D_Empresa_Roles" Type="Self.G_D_Empresa_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Roles">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Roles">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Suscripcion_G_C_Tipo_Suscripcion">
+          <End Role="G_C_Tipo_Suscripcion" Type="Self.G_C_Tipo_Suscripcion" Multiplicity="1" />
+          <End Role="G_D_Suscripcion" Type="Self.G_D_Suscripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Tipo_Suscripcion">
+              <PropertyRef Name="id_tipo_suscripcion" />
+            </Principal>
+            <Dependent Role="G_D_Suscripcion">
+              <PropertyRef Name="id_tipo_suscripcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Suscripcion_G_C_Usuario">
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="1" />
+          <End Role="G_D_Suscripcion" Type="Self.G_D_Suscripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Suscripcion">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -91,14 +240,71 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_G_D_Usuario_Roles_G_C_Roles">
+          <End Role="G_C_Roles" Type="Self.G_C_Roles" Multiplicity="1" />
+          <End Role="G_D_Usuario_Roles" Type="Self.G_D_Usuario_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Roles">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Roles">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Usuario_Roles_G_C_Usuario">
+          <End Role="G_C_Usuario" Type="Self.G_C_Usuario" Multiplicity="1" />
+          <End Role="G_D_Usuario_Roles" Type="Self.G_D_Usuario_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Roles">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="BESTDBModelStoreContainer">
           <EntitySet Name="G_C_Empresa" EntityType="Self.G_C_Empresa" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_C_Modulos" EntityType="Self.G_C_Modulos" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_C_Roles" EntityType="Self.G_C_Roles" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_C_Tipo_Suscripcion" EntityType="Self.G_C_Tipo_Suscripcion" Schema="BEST" store:Type="Tables" />
           <EntitySet Name="G_C_Usuario" EntityType="Self.G_C_Usuario" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_D_Empresa_Modulo" EntityType="Self.G_D_Empresa_Modulo" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_D_Empresa_Roles" EntityType="Self.G_D_Empresa_Roles" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_D_Suscripcion" EntityType="Self.G_D_Suscripcion" Schema="BEST" store:Type="Tables" />
           <EntitySet Name="G_D_Usuario_Acceso" EntityType="Self.G_D_Usuario_Acceso" Schema="BEST" store:Type="Tables" />
           <EntitySet Name="G_D_Usuario_Password" EntityType="Self.G_D_Usuario_Password" Schema="BEST" store:Type="Tables" />
+          <EntitySet Name="G_D_Usuario_Roles" EntityType="Self.G_D_Usuario_Roles" Schema="BEST" store:Type="Tables" />
           <AssociationSet Name="FK_G_C_Usuario_G_C_Empresa" Association="Self.FK_G_C_Usuario_G_C_Empresa">
             <End Role="G_C_Empresa" EntitySet="G_C_Empresa" />
             <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Empresa_Modulo_G_C_Empresa" Association="Self.FK_G_D_Empresa_Modulo_G_C_Empresa">
+            <End Role="G_C_Empresa" EntitySet="G_C_Empresa" />
+            <End Role="G_D_Empresa_Modulo" EntitySet="G_D_Empresa_Modulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Empresa_Modulo_G_C_Modulos" Association="Self.FK_G_D_Empresa_Modulo_G_C_Modulos">
+            <End Role="G_C_Modulos" EntitySet="G_C_Modulos" />
+            <End Role="G_D_Empresa_Modulo" EntitySet="G_D_Empresa_Modulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Empresa_Roles_G_C_Empresa" Association="Self.FK_G_D_Empresa_Roles_G_C_Empresa">
+            <End Role="G_C_Empresa" EntitySet="G_C_Empresa" />
+            <End Role="G_D_Empresa_Roles" EntitySet="G_D_Empresa_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Empresa_Roles_G_C_Roles" Association="Self.FK_G_D_Empresa_Roles_G_C_Roles">
+            <End Role="G_C_Roles" EntitySet="G_C_Roles" />
+            <End Role="G_D_Empresa_Roles" EntitySet="G_D_Empresa_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Suscripcion_G_C_Tipo_Suscripcion" Association="Self.FK_G_D_Suscripcion_G_C_Tipo_Suscripcion">
+            <End Role="G_C_Tipo_Suscripcion" EntitySet="G_C_Tipo_Suscripcion" />
+            <End Role="G_D_Suscripcion" EntitySet="G_D_Suscripcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Suscripcion_G_C_Usuario" Association="Self.FK_G_D_Suscripcion_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Suscripcion" EntitySet="G_D_Suscripcion" />
           </AssociationSet>
           <AssociationSet Name="FK_G_D_Usuario_Acceso_G_C_Usuario" Association="Self.FK_G_D_Usuario_Acceso_G_C_Usuario">
             <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
@@ -108,9 +314,16 @@
             <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
             <End Role="G_D_Usuario_Password" EntitySet="G_D_Usuario_Password" />
           </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Roles_G_C_Roles" Association="Self.FK_G_D_Usuario_Roles_G_C_Roles">
+            <End Role="G_C_Roles" EntitySet="G_C_Roles" />
+            <End Role="G_D_Usuario_Roles" EntitySet="G_D_Usuario_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Roles_G_C_Usuario" Association="Self.FK_G_D_Usuario_Roles_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Usuario_Roles" EntitySet="G_D_Usuario_Roles" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BESTDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -127,6 +340,8 @@
           <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="G_C_Usuario" Relationship="Self.FK_G_C_Usuario_G_C_Empresa" FromRole="G_C_Empresa" ToRole="G_C_Usuario" />
+          <NavigationProperty Name="G_D_Empresa_Modulo" Relationship="BESTDBModel.FK_G_D_Empresa_Modulo_G_C_Empresa" FromRole="G_C_Empresa" ToRole="G_D_Empresa_Modulo" />
+          <NavigationProperty Name="G_D_Empresa_Roles" Relationship="BESTDBModel.FK_G_D_Empresa_Roles_G_C_Empresa" FromRole="G_C_Empresa" ToRole="G_D_Empresa_Roles" />
         </EntityType>
         <EntityType Name="G_C_Usuario">
           <Key>
@@ -142,6 +357,8 @@
           <NavigationProperty Name="G_C_Empresa" Relationship="Self.FK_G_C_Usuario_G_C_Empresa" FromRole="G_C_Usuario" ToRole="G_C_Empresa" />
           <NavigationProperty Name="G_D_Usuario_Acceso" Relationship="Self.FK_G_D_Usuario_Acceso_G_C_Usuario" FromRole="G_C_Usuario" ToRole="G_D_Usuario_Acceso" />
           <NavigationProperty Name="G_D_Usuario_Password" Relationship="Self.FK_G_D_Usuario_Password_G_C_Usuario" FromRole="G_C_Usuario" ToRole="G_D_Usuario_Password" />
+          <NavigationProperty Name="G_D_Suscripcion" Relationship="BESTDBModel.FK_G_D_Suscripcion_G_C_Usuario" FromRole="G_C_Usuario" ToRole="G_D_Suscripcion" />
+          <NavigationProperty Name="G_D_Usuario_Roles" Relationship="BESTDBModel.FK_G_D_Usuario_Roles_G_C_Usuario" FromRole="G_C_Usuario" ToRole="G_D_Usuario_Roles" />
         </EntityType>
         <EntityType Name="G_D_Usuario_Acceso">
           <Key>
@@ -223,7 +440,233 @@
             <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
             <End Role="G_D_Usuario_Password" EntitySet="G_D_Usuario_Password" />
           </AssociationSet>
+          <EntitySet Name="G_C_Modulos" EntityType="BESTDBModel.G_C_Modulos" />
+          <EntitySet Name="G_C_Roles" EntityType="BESTDBModel.G_C_Roles" />
+          <EntitySet Name="G_C_Tipo_Suscripcion" EntityType="BESTDBModel.G_C_Tipo_Suscripcion" />
+          <EntitySet Name="G_D_Empresa_Modulo" EntityType="BESTDBModel.G_D_Empresa_Modulo" />
+          <EntitySet Name="G_D_Empresa_Roles" EntityType="BESTDBModel.G_D_Empresa_Roles" />
+          <EntitySet Name="G_D_Suscripcion" EntityType="BESTDBModel.G_D_Suscripcion" />
+          <EntitySet Name="G_D_Usuario_Roles" EntityType="BESTDBModel.G_D_Usuario_Roles" />
+          <AssociationSet Name="FK_G_D_Empresa_Modulo_G_C_Empresa" Association="BESTDBModel.FK_G_D_Empresa_Modulo_G_C_Empresa">
+            <End Role="G_C_Empresa" EntitySet="G_C_Empresa" />
+            <End Role="G_D_Empresa_Modulo" EntitySet="G_D_Empresa_Modulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Empresa_Roles_G_C_Empresa" Association="BESTDBModel.FK_G_D_Empresa_Roles_G_C_Empresa">
+            <End Role="G_C_Empresa" EntitySet="G_C_Empresa" />
+            <End Role="G_D_Empresa_Roles" EntitySet="G_D_Empresa_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Empresa_Modulo_G_C_Modulos" Association="BESTDBModel.FK_G_D_Empresa_Modulo_G_C_Modulos">
+            <End Role="G_C_Modulos" EntitySet="G_C_Modulos" />
+            <End Role="G_D_Empresa_Modulo" EntitySet="G_D_Empresa_Modulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Empresa_Roles_G_C_Roles" Association="BESTDBModel.FK_G_D_Empresa_Roles_G_C_Roles">
+            <End Role="G_C_Roles" EntitySet="G_C_Roles" />
+            <End Role="G_D_Empresa_Roles" EntitySet="G_D_Empresa_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Roles_G_C_Roles" Association="BESTDBModel.FK_G_D_Usuario_Roles_G_C_Roles">
+            <End Role="G_C_Roles" EntitySet="G_C_Roles" />
+            <End Role="G_D_Usuario_Roles" EntitySet="G_D_Usuario_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Suscripcion_G_C_Tipo_Suscripcion" Association="BESTDBModel.FK_G_D_Suscripcion_G_C_Tipo_Suscripcion">
+            <End Role="G_C_Tipo_Suscripcion" EntitySet="G_C_Tipo_Suscripcion" />
+            <End Role="G_D_Suscripcion" EntitySet="G_D_Suscripcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Suscripcion_G_C_Usuario" Association="BESTDBModel.FK_G_D_Suscripcion_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Suscripcion" EntitySet="G_D_Suscripcion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_G_D_Usuario_Roles_G_C_Usuario" Association="BESTDBModel.FK_G_D_Usuario_Roles_G_C_Usuario">
+            <End Role="G_C_Usuario" EntitySet="G_C_Usuario" />
+            <End Role="G_D_Usuario_Roles" EntitySet="G_D_Usuario_Roles" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="G_C_Modulos">
+          <Key>
+            <PropertyRef Name="id_modulo" />
+          </Key>
+          <Property Name="id_modulo" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="G_D_Empresa_Modulo" Relationship="BESTDBModel.FK_G_D_Empresa_Modulo_G_C_Modulos" FromRole="G_C_Modulos" ToRole="G_D_Empresa_Modulo" />
+        </EntityType>
+        <EntityType Name="G_C_Roles">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="rol_del_sistema" Type="Boolean" Nullable="false" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="G_D_Empresa_Roles" Relationship="BESTDBModel.FK_G_D_Empresa_Roles_G_C_Roles" FromRole="G_C_Roles" ToRole="G_D_Empresa_Roles" />
+          <NavigationProperty Name="G_D_Usuario_Roles" Relationship="BESTDBModel.FK_G_D_Usuario_Roles_G_C_Roles" FromRole="G_C_Roles" ToRole="G_D_Usuario_Roles" />
+        </EntityType>
+        <EntityType Name="G_C_Tipo_Suscripcion">
+          <Key>
+            <PropertyRef Name="id_tipo_suscripcion" />
+          </Key>
+          <Property Name="id_tipo_suscripcion" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="G_D_Suscripcion" Relationship="BESTDBModel.FK_G_D_Suscripcion_G_C_Tipo_Suscripcion" FromRole="G_C_Tipo_Suscripcion" ToRole="G_D_Suscripcion" />
+        </EntityType>
+        <EntityType Name="G_D_Empresa_Modulo">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_modulo" />
+          </Key>
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="id_modulo" Type="Int32" Nullable="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="G_C_Empresa" Relationship="BESTDBModel.FK_G_D_Empresa_Modulo_G_C_Empresa" FromRole="G_D_Empresa_Modulo" ToRole="G_C_Empresa" />
+          <NavigationProperty Name="G_C_Modulos" Relationship="BESTDBModel.FK_G_D_Empresa_Modulo_G_C_Modulos" FromRole="G_D_Empresa_Modulo" ToRole="G_C_Modulos" />
+        </EntityType>
+        <EntityType Name="G_D_Empresa_Roles">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="G_C_Empresa" Relationship="BESTDBModel.FK_G_D_Empresa_Roles_G_C_Empresa" FromRole="G_D_Empresa_Roles" ToRole="G_C_Empresa" />
+          <NavigationProperty Name="G_C_Roles" Relationship="BESTDBModel.FK_G_D_Empresa_Roles_G_C_Roles" FromRole="G_D_Empresa_Roles" ToRole="G_C_Roles" />
+        </EntityType>
+        <EntityType Name="G_D_Suscripcion">
+          <Key>
+            <PropertyRef Name="id_suscripcion" />
+          </Key>
+          <Property Name="id_suscripcion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="id_tipo_suscripcion" Type="Int32" Nullable="false" />
+          <Property Name="fecha_inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_fin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="G_C_Tipo_Suscripcion" Relationship="BESTDBModel.FK_G_D_Suscripcion_G_C_Tipo_Suscripcion" FromRole="G_D_Suscripcion" ToRole="G_C_Tipo_Suscripcion" />
+          <NavigationProperty Name="G_C_Usuario" Relationship="BESTDBModel.FK_G_D_Suscripcion_G_C_Usuario" FromRole="G_D_Suscripcion" ToRole="G_C_Usuario" />
+        </EntityType>
+        <EntityType Name="G_D_Usuario_Roles">
+          <Key>
+            <PropertyRef Name="id_empresa" />
+            <PropertyRef Name="id_usuario" />
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_empresa" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <Property Name="fecha_registro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="G_C_Roles" Relationship="BESTDBModel.FK_G_D_Usuario_Roles_G_C_Roles" FromRole="G_D_Usuario_Roles" ToRole="G_C_Roles" />
+          <NavigationProperty Name="G_C_Usuario" Relationship="BESTDBModel.FK_G_D_Usuario_Roles_G_C_Usuario" FromRole="G_D_Usuario_Roles" ToRole="G_C_Usuario" />
+        </EntityType>
+        <Association Name="FK_G_D_Empresa_Modulo_G_C_Empresa">
+          <End Type="BESTDBModel.G_C_Empresa" Role="G_C_Empresa" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Empresa_Modulo" Role="G_D_Empresa_Modulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Empresa">
+              <PropertyRef Name="id_empresa" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Modulo">
+              <PropertyRef Name="id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Empresa_Roles_G_C_Empresa">
+          <End Type="BESTDBModel.G_C_Empresa" Role="G_C_Empresa" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Empresa_Roles" Role="G_D_Empresa_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Empresa">
+              <PropertyRef Name="id_empresa" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Roles">
+              <PropertyRef Name="id_empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Empresa_Modulo_G_C_Modulos">
+          <End Type="BESTDBModel.G_C_Modulos" Role="G_C_Modulos" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Empresa_Modulo" Role="G_D_Empresa_Modulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Modulos">
+              <PropertyRef Name="id_modulo" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Modulo">
+              <PropertyRef Name="id_modulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Empresa_Roles_G_C_Roles">
+          <End Type="BESTDBModel.G_C_Roles" Role="G_C_Roles" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Empresa_Roles" Role="G_D_Empresa_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Roles">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="G_D_Empresa_Roles">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Usuario_Roles_G_C_Roles">
+          <End Type="BESTDBModel.G_C_Roles" Role="G_C_Roles" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Usuario_Roles" Role="G_D_Usuario_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Roles">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Roles">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Suscripcion_G_C_Tipo_Suscripcion">
+          <End Type="BESTDBModel.G_C_Tipo_Suscripcion" Role="G_C_Tipo_Suscripcion" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Suscripcion" Role="G_D_Suscripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Tipo_Suscripcion">
+              <PropertyRef Name="id_tipo_suscripcion" />
+            </Principal>
+            <Dependent Role="G_D_Suscripcion">
+              <PropertyRef Name="id_tipo_suscripcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Suscripcion_G_C_Usuario">
+          <End Type="BESTDBModel.G_C_Usuario" Role="G_C_Usuario" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Suscripcion" Role="G_D_Suscripcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Suscripcion">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_G_D_Usuario_Roles_G_C_Usuario">
+          <End Type="BESTDBModel.G_C_Usuario" Role="G_C_Usuario" Multiplicity="1" />
+          <End Type="BESTDBModel.G_D_Usuario_Roles" Role="G_D_Usuario_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="G_C_Usuario">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="G_D_Usuario_Roles">
+              <PropertyRef Name="id_empresa" />
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -279,6 +722,84 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="G_C_Modulos">
+            <EntityTypeMapping TypeName="BESTDBModel.G_C_Modulos">
+              <MappingFragment StoreEntitySet="G_C_Modulos">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="path" ColumnName="path" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_modulo" ColumnName="id_modulo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_C_Roles">
+            <EntityTypeMapping TypeName="BESTDBModel.G_C_Roles">
+              <MappingFragment StoreEntitySet="G_C_Roles">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="rol_del_sistema" ColumnName="rol_del_sistema" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_C_Tipo_Suscripcion">
+            <EntityTypeMapping TypeName="BESTDBModel.G_C_Tipo_Suscripcion">
+              <MappingFragment StoreEntitySet="G_C_Tipo_Suscripcion">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_tipo_suscripcion" ColumnName="id_tipo_suscripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_D_Empresa_Modulo">
+            <EntityTypeMapping TypeName="BESTDBModel.G_D_Empresa_Modulo">
+              <MappingFragment StoreEntitySet="G_D_Empresa_Modulo">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="id_modulo" ColumnName="id_modulo" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_D_Empresa_Roles">
+            <EntityTypeMapping TypeName="BESTDBModel.G_D_Empresa_Roles">
+              <MappingFragment StoreEntitySet="G_D_Empresa_Roles">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_D_Suscripcion">
+            <EntityTypeMapping TypeName="BESTDBModel.G_D_Suscripcion">
+              <MappingFragment StoreEntitySet="G_D_Suscripcion">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="id_tipo_suscripcion" ColumnName="id_tipo_suscripcion" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+                <ScalarProperty Name="id_suscripcion" ColumnName="id_suscripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_D_Usuario_Roles">
+            <EntityTypeMapping TypeName="BESTDBModel.G_D_Usuario_Roles">
+              <MappingFragment StoreEntitySet="G_D_Usuario_Roles">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -295,7 +816,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>

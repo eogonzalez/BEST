@@ -163,13 +163,34 @@
     <Compile Include="Models\G_C_Empresa.cs">
       <DependentUpon>BEST_EDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\G_C_Modulos.cs">
+      <DependentUpon>BEST_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\G_C_Roles.cs">
+      <DependentUpon>BEST_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\G_C_Tipo_Suscripcion.cs">
+      <DependentUpon>BEST_EDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\G_C_Usuario.cs">
+      <DependentUpon>BEST_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\G_D_Empresa_Modulo.cs">
+      <DependentUpon>BEST_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\G_D_Empresa_Roles.cs">
+      <DependentUpon>BEST_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\G_D_Suscripcion.cs">
       <DependentUpon>BEST_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\G_D_Usuario_Acceso.cs">
       <DependentUpon>BEST_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\G_D_Usuario_Password.cs">
+      <DependentUpon>BEST_EDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\G_D_Usuario_Roles.cs">
       <DependentUpon>BEST_EDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
