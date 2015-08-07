@@ -10,135 +10,107 @@ using BEST.Models;
 
 namespace BEST.Controllers
 {
-    public class EmpresaController : Controller
+    public class TipoSuscripcionController : Controller
     {
         private BESTDBEntities db = new BESTDBEntities();
 
-        // GET: /Empresa/
+        // GET: /TipoSuscripcion/
         public ActionResult Index()
         {
-            //Realizo consulta 
-            var query = from empresas in db.G_C_Empresa
-                    where empresas.estado.Equals("A")
-                    select empresas;
-
-            //var ql = q.ToList();
-            //return View(db.G_C_Empresa.ToList());
-
-            return View(query.ToList());
+            return View(db.G_C_Tipo_Suscripcion.ToList());
         }
 
-        // GET: /Empresa/Details/5
+        // GET: /TipoSuscripcion/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            G_C_Empresa g_c_empresa = db.G_C_Empresa.Find(id);
-            if (g_c_empresa == null)
+            G_C_Tipo_Suscripcion g_c_tipo_suscripcion = db.G_C_Tipo_Suscripcion.Find(id);
+            if (g_c_tipo_suscripcion == null)
             {
                 return HttpNotFound();
             }
-            return View(g_c_empresa);
+            return View(g_c_tipo_suscripcion);
         }
 
-        // GET: /Empresa/Create
+        // GET: /TipoSuscripcion/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Empresa/Create
+        // POST: /TipoSuscripcion/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(G_C_Empresa g_c_empresa)
+        public ActionResult Create([Bind(Include="id_tipo_suscripcion,nombre,descripcion,estado")] G_C_Tipo_Suscripcion g_c_tipo_suscripcion)
         {
             if (ModelState.IsValid)
             {
-                /*Asigno valores por defecto*/
-                /*Para id_empresa asigno el valor de la funcion ObtenerCorrelativo */
-                g_c_empresa.id_empresa = g_c_empresa.ObtenerCorrelativo();
-                /*Para fecha y estado esta pendiente que no se envie ya que tiene valores por defecto en la Base de datos */
-                g_c_empresa.fecha_registro = DateTime.Now;
-                g_c_empresa.estado = "A";
-
-                db.G_C_Empresa.Add(g_c_empresa);
+                db.G_C_Tipo_Suscripcion.Add(g_c_tipo_suscripcion);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(g_c_empresa);
+            return View(g_c_tipo_suscripcion);
         }
 
-        // GET: /Empresa/Edit/5
+        // GET: /TipoSuscripcion/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            G_C_Empresa g_c_empresa = db.G_C_Empresa.Find(id);
-            if (g_c_empresa == null)
+            G_C_Tipo_Suscripcion g_c_tipo_suscripcion = db.G_C_Tipo_Suscripcion.Find(id);
+            if (g_c_tipo_suscripcion == null)
             {
                 return HttpNotFound();
             }
-            return View(g_c_empresa);
+            return View(g_c_tipo_suscripcion);
         }
 
-        // POST: /Empresa/Edit/5
+        // POST: /TipoSuscripcion/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="id_empresa,razon_social,nombre_comercial,direccion,email,telefono,fecha_registro,estado")] G_C_Empresa g_c_empresa)
+        public ActionResult Edit([Bind(Include="id_tipo_suscripcion,nombre,descripcion,estado")] G_C_Tipo_Suscripcion g_c_tipo_suscripcion)
         {
             if (ModelState.IsValid)
             {
-                /*Envio valores por defecto de fecha y estado*/
-                g_c_empresa.fecha_registro = DateTime.Now;
-                g_c_empresa.estado = "A";
-
-                db.Entry(g_c_empresa).State = EntityState.Modified;
+                db.Entry(g_c_tipo_suscripcion).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(g_c_empresa);
+            return View(g_c_tipo_suscripcion);
         }
 
-        // GET: /Empresa/Delete/5
+        // GET: /TipoSuscripcion/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            G_C_Empresa g_c_empresa = db.G_C_Empresa.Find(id);
-            if (g_c_empresa == null)
+            G_C_Tipo_Suscripcion g_c_tipo_suscripcion = db.G_C_Tipo_Suscripcion.Find(id);
+            if (g_c_tipo_suscripcion == null)
             {
                 return HttpNotFound();
             }
-            return View(g_c_empresa);
+            return View(g_c_tipo_suscripcion);
         }
 
-        // POST: /Empresa/Delete/5
+        // POST: /TipoSuscripcion/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            G_C_Empresa g_c_empresa = db.G_C_Empresa.Find(id);
-            
-            /*Comento el metodo que elimina el registro*/
-            //db.G_C_Empresa.Remove(g_c_empresa);
-            
-            /*Envio valores por defecto de fecha registro*/
-            g_c_empresa.fecha_registro = DateTime.Now;
-            
-            /*Cambio estado para empresa*/
-            g_c_empresa.estado = "B";
-
+            G_C_Tipo_Suscripcion g_c_tipo_suscripcion = db.G_C_Tipo_Suscripcion.Find(id);
+            db.G_C_Tipo_Suscripcion.Remove(g_c_tipo_suscripcion);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

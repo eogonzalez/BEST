@@ -13,7 +13,8 @@ namespace BEST.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Data.SqlClient;
+    using System.Configuration;
     public partial class G_C_Empresa
     {
         public G_C_Empresa()
@@ -23,10 +24,10 @@ namespace BEST.Models
             this.G_D_Empresa_Roles = new HashSet<G_D_Empresa_Roles>();            
         }
 
-        
         [DisplayName("Código de Empresa")]
         [Key]
         public int id_empresa { get; set; }
+
 
         [DisplayName("Razón Social")]
         public string razon_social { get; set; }
@@ -48,10 +49,34 @@ namespace BEST.Models
 
         [DisplayName("Estado")]
         public string estado { get; set; }
-    
+        
         public virtual ICollection<G_C_Usuario> G_C_Usuario { get; set; }
         public virtual ICollection<G_D_Empresa_Modulo> G_D_Empresa_Modulo { get; set; }
         public virtual ICollection<G_D_Empresa_Roles> G_D_Empresa_Roles { get; set; }
+
+        public int ObtenerCorrelativo()
+        { 
+            int correlativo;
+            string sql_query;
+
+            sql_query = " SELECT coalesce(MAX(id_empresa),0) " +
+                " FROM BEST.G_C_Empresa ";
+
+            string connectionstring = ConfigurationManager.ConnectionStrings["cn"].ConnectionString;
+            SqlConnection connection = new SqlConnection(connectionstring);
+
+            using(connection){
+                SqlCommand command = new SqlCommand(sql_query, connection);
+                connection.Open();
+                if (command.ExecuteScalar() == System.DBNull.Value){
+                    correlativo = 0;
+                }
+                else{
+                    correlativo = Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            return correlativo + 1;
+        }
 
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BEST.Models.G_C_Empresa>
 
 @{
-    ViewBag.Title = "Empresas";
+    ViewBag.Title = "Index";
 }
 
 <h2>Empresas</h2>
@@ -26,12 +26,12 @@
         <th>
             @Html.DisplayNameFor(model => model.telefono)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.fecha_registro)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.estado)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -52,17 +52,17 @@
         <td>
             @Html.DisplayFor(modelItem => item.telefono)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.fecha_registro)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.estado)
-        </td>
+        </td>*@
         <td>
             <div class="btn-group btn-group-xs" role="group">
-                @Html.ActionLink(".", "Edit", new { id = item.id_empresa }, new { @class = "btn btn-primary glyphicon glyphicon-pencil"})
-                @Html.ActionLink(".", "Details", new { id = item.id_empresa }, new { @class = "btn btn-primary glyphicon glyphicon-th-list" })
-                @Html.ActionLink(".", "Delete", new { id = item.id_empresa }, new { @class = "btn btn-primary glyphicon glyphicon-remove" })
+                @Html.ActionLink(" Editar ", "Edit", new { id = item.id_empresa }, new { @class = "btn btn-success glyphicon glyphicon-pencil" })
+                @Html.ActionLink(" Detalles ", "Details", new { id = item.id_empresa }, new { @class = "btn btn-primary glyphicon glyphicon-th-list" })
+                @Html.ActionLink(" Borrar ", "Delete", new { id = item.id_empresa }, new { @class = "btn btn-danger glyphicon glyphicon-remove" })
             </div>
         </td>
     </tr>

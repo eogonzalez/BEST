@@ -4,71 +4,77 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2></h2>
 
-<div>
-    <h4>G_C_Empresa</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.razon_social)
-        </dt>
+<div class="panel panel-primary">
+    <div class="panel-heading"> Empresa </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.razon_social)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.razon_social)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.razon_social)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre_comercial)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.nombre_comercial)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.nombre_comercial)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.nombre_comercial)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.direccion)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.direccion)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.direccion)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.direccion)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.email)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.email)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.email)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.telefono)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.telefono)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.telefono)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.telefono)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fecha_registro)
-        </dt>
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.fecha_registro)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.fecha_registro)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.fecha_registro)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.estado)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.estado)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.estado)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.estado)
+                </dd>*@
 
-    </dl>
+        </dl>
+    </div>
+
+    <div class="panel-footer">
+        <p>
+            @Html.ActionLink("Editar", "Edit", new { id = Model.id_empresa }) |
+            @Html.ActionLink("Regresar al listado", "Index")
+        </p>
+    </div>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id_empresa }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

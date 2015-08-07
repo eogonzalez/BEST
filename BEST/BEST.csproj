@@ -142,6 +142,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModuloController.cs" />
+    <Compile Include="Controllers\RolController.cs" />
+    <Compile Include="Controllers\TipoSuscripcionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -258,6 +261,21 @@
     <Content Include="Views\Usuario\Details.cshtml" />
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\TipoSuscripcion\Create.cshtml" />
+    <Content Include="Views\TipoSuscripcion\Delete.cshtml" />
+    <Content Include="Views\TipoSuscripcion\Details.cshtml" />
+    <Content Include="Views\TipoSuscripcion\Edit.cshtml" />
+    <Content Include="Views\TipoSuscripcion\Index.cshtml" />
+    <Content Include="Views\Modulo\Create.cshtml" />
+    <Content Include="Views\Modulo\Delete.cshtml" />
+    <Content Include="Views\Modulo\Details.cshtml" />
+    <Content Include="Views\Modulo\Edit.cshtml" />
+    <Content Include="Views\Modulo\Index.cshtml" />
+    <Content Include="Views\Rol\Create.cshtml" />
+    <Content Include="Views\Rol\Delete.cshtml" />
+    <Content Include="Views\Rol\Details.cshtml" />
+    <Content Include="Views\Rol\Edit.cshtml" />
+    <Content Include="Views\Rol\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

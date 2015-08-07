@@ -4,55 +4,59 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2></h2>
 
-<div>
-    <h4>G_C_Usuario</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
+<div class="panel panel-primary">
+    <div class="panel-heading"> Usuario </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.nombre)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.nombre)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.correo)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.correo)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.correo)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.correo)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.fecha_registro)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.fecha_registro)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.fecha_registro)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.fecha_registro)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.estado)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.estado)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.estado)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.estado)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.G_C_Empresa.razon_social)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.G_C_Empresa.razon_social)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.G_C_Empresa.razon_social)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.G_C_Empresa.razon_social)
+            </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        </dl>
+    </div>
+    <div class="panel-footer">
+
+        <p>
+            @Html.ActionLink("Editar", "Edit", new { /* id = Model.PrimaryKey */ }) |
+            @Html.ActionLink("Regresar al listado", "Index")
+        </p>
+        </div>
+    </div>

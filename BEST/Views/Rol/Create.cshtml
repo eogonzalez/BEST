@@ -1,35 +1,25 @@
-﻿@model BEST.Models.G_C_Usuario
+﻿@model BEST.Models.G_C_Roles
 
 @{
     ViewBag.Title = "Create";
 }
 
-<h2></h2>
+<h2>Create</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-<div class="panel panel-primary">
-        <div class="panel-heading"> Empresa </div>
-    <div class="panel-body form-horizontal">
-        @*<h4>G_C_Usuario</h4>
-            <hr />*@
+    <div class="form-horizontal">
+        <h4>G_C_Roles</h4>
+        <hr />
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.id_empresa, "id_empresa", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.id_rol, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("id_empresa", String.Empty)
-                @Html.ValidationMessageFor(model => model.id_empresa)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.id_usuario, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.id_usuario)
-                @Html.ValidationMessageFor(model => model.id_usuario)
+                @Html.EditorFor(model => model.id_rol)
+                @Html.ValidationMessageFor(model => model.id_rol)
             </div>
         </div>
 
@@ -42,10 +32,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.correo, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.correo)
-                @Html.ValidationMessageFor(model => model.correo)
+                @Html.EditorFor(model => model.descripcion)
+                @Html.ValidationMessageFor(model => model.descripcion)
             </div>
         </div>
 
@@ -58,19 +48,29 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.rol_del_sistema, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.rol_del_sistema)
+                @Html.ValidationMessageFor(model => model.rol_del_sistema)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.estado, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.estado)
                 @Html.ValidationMessageFor(model => model.estado)
             </div>
         </div>
-    </div>
-        <div class="panel-footer">
-                <input type="submit" value="Crear" class="btn btn-success" />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Regresar al listado", "Index")
+    @Html.ActionLink("Back to List", "Index")
 </div>
