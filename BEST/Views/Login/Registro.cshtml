@@ -1,0 +1,68 @@
+﻿@model BEST.Models.LoginModel
+
+@{
+    ViewBag.Title = "Registro";
+}
+
+@using (Html.BeginForm()){
+    
+    @Html.AntiForgeryToken()
+    <h4> Cree una cuenta nueva </h4>
+    <hr/>
+    <div class="panel panel-primary">
+        <div class="panel-heading"> Registro </div>
+        <div class="panel-body form-horizontal">
+            @Html.ValidationSummary(true)
+
+            @* Empresa *@
+            <div class="form-group">
+                @Html.LabelFor(model => model.M_empresa.nombre_comercial, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.M_empresa.nombre_comercial, new { @class = "form-control" })
+                </div>
+            </div>
+
+            @* Usuario *@
+            <div class="form-group">
+                @Html.LabelFor(model => model.M_usuario.nombre, new { @class="col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.M_usuario.nombre, new { @class="form-control"})
+                </div>
+            </div>
+
+            @* correo *@
+            <div class="form-group">
+                @Html.LabelFor(model => model.M_usuario.correo, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.M_usuario.correo, new { @class = "form-control" })
+                </div>
+            </div>
+
+            @* Password *@
+            <div class="form-group">
+                @Html.LabelFor(model => model.M_usuario_password.password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(model => model.M_usuario_password.password, new { @class = "form-control" })
+                </div>
+            </div>
+
+            @* Confirmar Password *@
+            <div class="form-group">
+                @Html.LabelFor(model => model.confirmarcontraseña, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(model => model.confirmarcontraseña, new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Registrarse" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

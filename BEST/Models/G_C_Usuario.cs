@@ -11,7 +11,10 @@ namespace BEST.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using System.Data.SqlClient;
+    using System.Configuration;
     
     public partial class G_C_Usuario
     {
@@ -27,9 +30,16 @@ namespace BEST.Models
         public int id_empresa { get; set; }
 
         [Key]
+        [DisplayName("Código Usuario")]
         public int id_usuario { get; set; }
+
+        [DisplayName("Usuario")]
         public string nombre { get; set; }
+
+        [DisplayName("Correo")]
         public string correo { get; set; }
+
+
         public System.DateTime fecha_registro { get; set; }
         public string estado { get; set; }
     
@@ -38,5 +48,34 @@ namespace BEST.Models
         public virtual ICollection<G_D_Usuario_Password> G_D_Usuario_Password { get; set; }
         public virtual ICollection<G_D_Suscripcion> G_D_Suscripcion { get; set; }
         public virtual ICollection<G_D_Usuario_Roles> G_D_Usuario_Roles { get; set; }
+
+        public int ObtenerCorrelativo(int id_empresa)
+        {
+            int correlativo;
+            string sql_query;
+
+            sql_query = " SELECT coalesce(MAX(id_usuario),0) " +
+                " FROM BEST.G_C_Usuario "+
+                " where id_empresa = @id_empresa ";
+
+            string connectionstring = ConfigurationManager.ConnectionStrings["cn"].ConnectionString;
+            SqlConnection connection = new SqlConnection(connectionstring);
+
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand(sql_query, connection);
+                command.Parameters.Add("id_empresa", id_empresa);
+                connection.Open();
+                if (command.ExecuteScalar() == System.DBNull.Value)
+                {
+                    correlativo = 0;
+                }
+                else
+                {
+                    correlativo = Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            return correlativo + 1;
+        }
     }
 }

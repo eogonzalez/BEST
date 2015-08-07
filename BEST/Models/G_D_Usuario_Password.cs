@@ -11,16 +11,59 @@ namespace BEST.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Data.SqlClient;
+    using System.Configuration;
     
     public partial class G_D_Usuario_Password
     {
+        [Key]
         public long id_usuario_password { get; set; }
+
+        [Key]
         public int id_empresa { get; set; }
+
+        [Key]
         public int id_usuario { get; set; }
+
+        [DisplayName("Contraseña")]
+        [DataType(DataType.Password)]
         public string password { get; set; }
         public System.DateTime fecha_registro { get; set; }
         public string estado { get; set; }
     
         public virtual G_C_Usuario G_C_Usuario { get; set; }
+
+        public int ObtenerCorrelativo(int id_empresa, int id_usuario)
+        {
+            int correlativo;
+            string sql_query;
+
+            sql_query = " SELECT coalesce(MAX(id_usuario_password),0) " +
+                " FROM BEST.G_D_Usuario_Password " +
+                " where id_empresa = @id_empresa AND "+
+                " id_usuario = @id_usuario ";
+
+            string connectionstring = ConfigurationManager.ConnectionStrings["cn"].ConnectionString;
+            SqlConnection connection = new SqlConnection(connectionstring);
+
+            using (connection)
+            {
+                SqlCommand command = new SqlCommand(sql_query, connection);
+                command.Parameters.Add("id_empresa", id_empresa);
+                command.Parameters.Add("id_usuario", id_usuario);
+                connection.Open();
+                if (command.ExecuteScalar() == System.DBNull.Value)
+                {
+                    correlativo = 0;
+                }
+                else
+                {
+                    correlativo = Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+            return correlativo + 1;
+        }
     }
 }
