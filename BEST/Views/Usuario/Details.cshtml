@@ -55,7 +55,7 @@
     <div class="panel-footer">
 
         <p>
-            @Html.ActionLink("Editar", "Edit", new { /* id = Model.PrimaryKey */ }) |
+            @Html.ActionLink("Editar", "Edit", new {  id_usuario = Model.id_usuario, id_empresa = Model.id_empresa } ) |
             @Html.ActionLink("Regresar al listado", "Index")
         </p>
         </div>

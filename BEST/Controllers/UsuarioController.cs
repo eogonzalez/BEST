@@ -17,18 +17,26 @@ namespace BEST.Controllers
         // GET: /Usuario/
         public ActionResult Index()
         {
-            var g_c_usuario = db.G_C_Usuario.Include(g => g.G_C_Empresa);
+            //var query = from usuarios in db.G_C_Usuario
+            //            where usuarios.estado.Equals("A")
+            //            select usuarios;
+
+            var g_c_usuario = from usuario in db.G_C_Usuario.Include(g => g.G_C_Empresa)
+                                  where usuario.estado.Equals("A")
+                                  select usuario;
+
             return View(g_c_usuario.ToList());
         }
 
         // GET: /Usuario/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id_usuario, int? id_empresa)
         {
-            if (id == null)
+            if ((id_usuario == null) && (id_empresa == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id);
+            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id_usuario, id_empresa);
+            //G_C_Empresa g_c_empresa = db.G_C_Empresa.Find(id_empresa);
             if (g_c_usuario == null)
             {
                 return HttpNotFound();
@@ -48,10 +56,14 @@ namespace BEST.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="id_empresa,id_usuario,nombre,correo,fecha_registro,estado")] G_C_Usuario g_c_usuario)
+        public ActionResult Create(G_C_Usuario g_c_usuario)
         {
             if (ModelState.IsValid)
             {
+                g_c_usuario.id_usuario = g_c_usuario.ObtenerCorrelativo(g_c_usuario.id_empresa);
+                g_c_usuario.fecha_registro = DateTime.Now;
+                g_c_usuario.estado = "A";
+
                 db.G_C_Usuario.Add(g_c_usuario);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -62,16 +74,17 @@ namespace BEST.Controllers
         }
 
         // GET: /Usuario/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id_empresa, int? id_usuario)
         {
-            if (id == null)
+            if ((id_usuario == null) && (id_empresa == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id);
+            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id_empresa, id_usuario);
+            //G_C_Empresa g_c_empresa = db.G_C_Empresa.Find(id_usuario);
             if (g_c_usuario == null)
             {
-                return HttpNotFound();
+                return HttpNotFound(); 
             }
             ViewBag.id_empresa = new SelectList(db.G_C_Empresa, "id_empresa", "razon_social", g_c_usuario.id_empresa);
             return View(g_c_usuario);
@@ -86,6 +99,9 @@ namespace BEST.Controllers
         {
             if (ModelState.IsValid)
             {
+                g_c_usuario.fecha_registro = DateTime.Now;
+                g_c_usuario.estado = "A";
+
                 db.Entry(g_c_usuario).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -95,14 +111,14 @@ namespace BEST.Controllers
         }
 
         // GET: /Usuario/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id_empresa, int? id_usuario)
         {
-            if (id == null)
+            if ((id_usuario == null) && (id_empresa == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id);
-            if (g_c_usuario == null)
+            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id_empresa, id_usuario);
+            if ((g_c_usuario == null) && (id_empresa == null))
             {
                 return HttpNotFound();
             }
@@ -112,10 +128,15 @@ namespace BEST.Controllers
         // POST: /Usuario/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id_empresa, int id_usuario)
         {
-            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id);
-            db.G_C_Usuario.Remove(g_c_usuario);
+
+            G_C_Usuario g_c_usuario = db.G_C_Usuario.Find(id_empresa, id_usuario);
+            
+            g_c_usuario.fecha_registro = DateTime.Now;
+            g_c_usuario.estado = "B";
+
+            //db.G_C_Usuario.Remove(g_c_usuario);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

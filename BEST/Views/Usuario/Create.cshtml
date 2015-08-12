@@ -25,13 +25,13 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.id_usuario, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.id_usuario)
                 @Html.ValidationMessageFor(model => model.id_usuario)
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.fecha_registro, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.fecha_registro)
@@ -63,7 +63,7 @@
                 @Html.EditorFor(model => model.estado)
                 @Html.ValidationMessageFor(model => model.estado)
             </div>
-        </div>
+        </div>*@
     </div>
         <div class="panel-footer">
                 <input type="submit" value="Crear" class="btn btn-success" />

@@ -49,9 +49,9 @@
             </td>
             <td>
                 <div class="btn-group btn-group-xs" role="group">
-                    @Html.ActionLink(" Editar ", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-success glyphicon glyphicon-pencil" }) 
-                    @Html.ActionLink(" Detalles ", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-success glyphicon glyphicon-pencil" }) 
-                    @Html.ActionLink(" Borrar ", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-success glyphicon glyphicon-pencil" })
+                    @Html.ActionLink(" Editar ", "Edit", new { id_usuario = item.id_usuario, id_empresa = item.id_empresa}, new { @class = "btn btn-success glyphicon glyphicon-pencil" }) 
+                    @Html.ActionLink(" Detalles ", "Details", new { id_usuario = item.id_usuario, id_empresa = item.id_empresa }, new { @class = "btn btn-primary glyphicon glyphicon-th-list" }) 
+                    @Html.ActionLink(" Borrar ", "Delete", new { id_usuario = item.id_usuario, id_empresa = item.id_empresa }, new { @class = "btn btn-danger glyphicon glyphicon-remove" })
                 </div>
             </td>
         </tr>

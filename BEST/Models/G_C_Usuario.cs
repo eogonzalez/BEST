@@ -15,9 +15,12 @@ namespace BEST.Models
     using System.ComponentModel.DataAnnotations;
     using System.Data.SqlClient;
     using System.Configuration;
+    using System.Linq;
     
     public partial class G_C_Usuario
     {
+        private BESTDBEntities db = new BESTDBEntities();
+
         public G_C_Usuario()
         {
             this.G_D_Usuario_Acceso = new HashSet<G_D_Usuario_Acceso>();
@@ -51,31 +54,13 @@ namespace BEST.Models
 
         public int ObtenerCorrelativo(int id_empresa)
         {
-            int correlativo;
-            string sql_query;
+            var tabla_usuario = db.G_C_Usuario.ToList();
 
-            sql_query = " SELECT coalesce(MAX(id_usuario),0) " +
-                " FROM BEST.G_C_Usuario "+
-                " where id_empresa = @id_empresa ";
+            var resultado = (from usuario in tabla_usuario
+                             where usuario.id_empresa == id_empresa
+                                 select usuario.id_usuario ).Max();
 
-            string connectionstring = ConfigurationManager.ConnectionStrings["cn"].ConnectionString;
-            SqlConnection connection = new SqlConnection(connectionstring);
-
-            using (connection)
-            {
-                SqlCommand command = new SqlCommand(sql_query, connection);
-                command.Parameters.Add("id_empresa", id_empresa);
-                connection.Open();
-                if (command.ExecuteScalar() == System.DBNull.Value)
-                {
-                    correlativo = 0;
-                }
-                else
-                {
-                    correlativo = Convert.ToInt32(command.ExecuteScalar());
-                }
-            }
-            return correlativo + 1;
+            return resultado + 1;
         }
     }
 }
